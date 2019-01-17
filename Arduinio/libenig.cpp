@@ -3,7 +3,7 @@ Constants for the Eigenmuch Better
 **********************************************/
 #include <stdint.h>
 #include <Wire.h>
-#include <Adafruit_MCP23017.h>
+#include "Adafruit_MCP23017.h"
 
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
