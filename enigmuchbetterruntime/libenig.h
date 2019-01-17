@@ -62,6 +62,9 @@ void writeKeyboardLed(T pin, uint8_t d);
 */
 void LedWrite(unsigned int input,uint8_t d);
 
+/* Take a guess*/
+void LedAllOn();
+void LedAllOff();
 
 /* Reads a keyboard button and returns it's state
   LOL DON'T USE 
@@ -91,9 +94,13 @@ uint8_t getKey(T pin);
  ********************/
 
 
+
 /* Converts a type T to a physical LED pin.
 @requires 0 to 26*/
 io_addr_t TtoLEDPin(T pin);
+
+/* Converts an int to a order of keys on querty order*/
+T intToQuertyOrder(unsigned int pin);
 
 /* Converts a type T to a physiscal button pin*/
 io_addr_t TtoButtonPin(T pin);
