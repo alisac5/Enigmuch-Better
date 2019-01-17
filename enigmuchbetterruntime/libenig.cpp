@@ -20,7 +20,7 @@ Adafruit_MCP23017 IOEXP3;
 
 uint16_t lastKeyScanA; // State of buttons A-?
 uint16_t lastKeyScanB; // State of buttons from ?+1-Z
-
+T quertyMap[27] ={16,22,4,17,19,24,20,8,14,15,0,18,3,5,6,7,9,10,11,25,23,2,21,1,13,12,26}; // Maps T to Querty order on keyboard 
 void enigenmuchbetter_setup()
 {
     // SETUP IO Expanders
@@ -61,6 +61,22 @@ void LedWrite(unsigned int input, uint8_t d)
 {
     io_addr_t addr = intToLEDPin(input);
     GPIOExpanderWrite(addr, d);
+}
+
+void LedAllOff(){
+  for(int i=0; i < 27; i++){
+
+  LedWrite((T)i,LOW); 
+
+}
+}
+
+void LEDAllOn(){
+  for(int i=0; i < 27; i++){
+
+  LedWrite((T)i,HIGH); 
+
+}
 }
 
 void scanKeys()
@@ -117,6 +133,9 @@ T getKey(T pin)
     //return 0x1&((pin >= 16)? (lastKeyScanA >> pin) : (lastKeyScanB >> (pin-16)));
 }
 
+T intToQuertyOrder(unsigned int pin){
+    return quertyMap[pin];
+}
 io_addr_t TtoLEDPin(T pin)
 {
     return intToLEDPin((unsigned int)pin);

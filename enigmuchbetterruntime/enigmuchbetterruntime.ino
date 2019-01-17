@@ -3,9 +3,11 @@
 #include "Adafruit_MCP23017.h"
 #include "libenig.h"
 #include "HT16K33.h"
+#include "demo.h"
 
 
 HT16K33_H disp; 
+DemoController demo; 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -18,17 +20,22 @@ void setup() {
   disp.begin();
   // Turn on Quad Character Alphanumeric Display s
   disp.setVisible(1); 
+  demo.begin(&disp);
 
 }
 
 void loop() {
   // Run Test Active Key Subroutine 
+  //flood();
+  demo.loop();
   // preformEncryption();
-  flood(); 
-  disp.setText("GO  "); 
-  delay(2000);
-    disp.setText("TEAM"); 
-  delay(2000);
+  //flood(); 
+ // disp.setText("PLS "); 
+ // delay(2000);
+ // disp.setText("HIRE "); 
+ // delay(2000);
+ // disp.setText("ME  "); 
+ // delay(2000);
   
 
 }
