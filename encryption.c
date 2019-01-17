@@ -7,12 +7,53 @@ typedef unsigned char T; // ranges from 0 to 26 inclusive
 
 typedef unsigned int K; // ranges from 0 to 2^20 - 1 inclusive
 
+typedef struct Rotors
+{
+    int r1;
+    T rot1;
+    int r2;
+    T rot2;
+    int r3;
+    T rot3;
+} Rotors;
+
+int[][] ps = [
+    [ 2, 20,  0, 12, 14,  8,  3, 21, 22, 23,  6,  4, 10, 24,  7, 18, 16,
+       17,  9,  5, 11, 25, 13, 15,  1, 19],
+    [16, 14,  8,  5, 12, 20,  2, 15,  9, 25,  4, 19,  0, 21, 18, 17,  6,
+       22,  7,  3, 24, 13, 11, 10,  1, 23],
+    [17,  4, 24, 21,  8,  0,  2, 10, 22,  9, 12, 13, 16, 18,  7,  5,  6,
+       19, 15,  1, 11,  3, 23, 14, 25, 20],
+    [17, 22, 15, 20,  3, 19, 23, 21, 24,  0, 25, 12, 13,  2, 18, 14,  4,
+        1,  5,  7,  8,  6, 16,  9, 11, 10],
+    [12, 10,  5, 22, 21, 17, 19,  6, 20,  8, 13, 23, 15, 24, 18, 14,  3,
+        1,  2,  0,  7,  9, 16,  4, 11, 25],
+    [ 8,  1, 15,  2, 10, 21, 11, 22, 24,  0,  3, 25, 13,  7, 20,  9, 19,
+       16, 18,  5, 14,  4, 17, 12, 23,  6]
+];
+
+T f(int rotor_num, T input, T rotation)
+{
+    return ps[rotor_num][input + rotation] - rotation;
+}
+
+void next_key(struct rotors* r)
+{
+    r.rot1++;
+    r.rot2++;
+    r.rot3++;
+}
+
 T encrypt(K key, T input)
 //@requires input <= 26;
 //@requires key <= 1<<20 - 1;
 //@ensures \result <= 26;
 {
-  return 0;
+    struct rotors* r = get_rotor(key);
+    T first_round = f(r.r1, input, r.rot1);
+    T second_round = f(r.r2, first_round, r.rot2);
+    T third_round = f(r.r3, second_round, r.rot3);
+    return third_round;
 }
 
 // Helper function
