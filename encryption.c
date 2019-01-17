@@ -17,6 +17,7 @@ typedef struct Rotors
 
 Rotors ROTORS;
 
+//Permutations from permutations.txt
 int ps[6][27] = {
     {5, 4, 11, 2, 10, 6, 7, 17, 22, 9, 23, 26, 13, 8, 25, 20, 0, 14, 16, 21, 1, 12, 19, 24, 18, 15, 3}, 
     {13, 5, 4, 17, 10, 11, 0, 23, 22, 20, 2, 3, 25, 15, 16, 12, 19, 8, 1, 9, 18, 24, 26, 7, 6, 21, 14},
@@ -48,6 +49,15 @@ T phase(int rotor_num, T input, T rotation)
     return ps[rotor_num][input + rotation] - rotation;
 }
 
+T inv_phase(int rotor_num, T output, T rotation)
+{
+    // ps[input + rotation] - rotation = output
+    // ps[input + rotation] = output + rotation
+    // input + rotation = inv[output + rotation]
+    // input = inv[output + rotation] - rotation
+    return invs[rotor_num][output + rotation] - rotation;
+}
+
 void nextState(Rotors *r)
 {
     r->rot1++;
@@ -64,6 +74,15 @@ T encrypt(T input)
     T second_round = phase(r.r2, first_round, r.rot2);
     T third_round = phase(r.r3, second_round, r.rot3);
     return third_round;
+}
+
+T decrypt(T output)
+{
+    Rotors r = ROTORS;
+    T third_inv = inv_phase(r.r3, output, r.rot3);
+    T second_inv = inv_phase(r.r2, output, r.rot2);
+    T first_inv = inv_phase(r.r1, output, r.rot1);
+    return first_inv;
 }
 
 // Helper function
