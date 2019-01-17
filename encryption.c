@@ -5,8 +5,6 @@
 typedef unsigned char T; // ranges from 0 to 26 inclusive 
 #endif
 
-typedef unsigned int K; // ranges from 0 to 2^20 - 1 inclusive
-
 typedef struct Rotors
 {
     int r1;
@@ -34,12 +32,12 @@ int ps[6][27] = {
        16, 18,  5, 14,  4, 17, 12, 23,  6}
 };
 
-T f(int rotor_num, T input, T rotation)
+T phase(int rotor_num, T input, T rotation)
 {
     return ps[rotor_num][input + rotation] - rotation;
 }
 
-void nextKey(struct Rotors *r)
+void nextState(Rotors *r)
 {
     r->rot1++;
     r->rot2++;
@@ -50,21 +48,21 @@ T encrypt(T input)
 //@requires input <= 26;
 //@ensures \result <= 26;
 {
-    struct Rotors r = ROTORS;
-    T first_round = f(r.r1, input, r.rot1);
-    T second_round = f(r.r2, first_round, r.rot2);
-    T third_round = f(r.r3, second_round, r.rot3);
+    Rotors r = ROTORS;
+    T first_round = phase(r.r1, input, r.rot1);
+    T second_round = phase(r.r2, first_round, r.rot2);
+    T third_round = phase(r.r3, second_round, r.rot3);
     return third_round;
 }
 
 // Helper function
 T char2T(char c)
 {
-  if(c == 32)
+  if(c == 32) //Space --> 26
     return 26;
-  else if(65 <= c && c <= 90)
+  else if(65 <= c && c <= 90) //Uppercase letters mapped
     return c - 65;
-  else if(97 <= c && c <= 122)
+  else if(97 <= c && c <= 122) //Lowercase letters mapped
     return c - 97;
   else abort();
 }
@@ -77,15 +75,16 @@ int main()
   char ciphertext[14];
   char decipheredtext[14];
   
+  /*
   // Initialization
-  K key = nextKey(NULL);
+  K key = nextState(NULL);
   K originalKey = key;
   
   // Encryption
   for(i = 0; i < 14; i++)
   {
-    ciphertext[i] = encrypt(key, plaintext[i]);
-    key = nextKey(key);
+    ciphertext[i] = encrypt(plaintext[i]);
+    key = nextState(key);
   }
   
   // Decryption
@@ -93,7 +92,7 @@ int main()
   for(i = 0; i < 14; i++)
   {
     decipheredtext[i] = encrypt(key, ciphertext[i]);
-    key = nextKey(key);
+    key = nextState(key);
   }
    
   // Check
@@ -101,4 +100,5 @@ int main()
     abort();
   else
     return 0;
+  */
 }
