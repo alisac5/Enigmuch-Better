@@ -15,7 +15,9 @@ typedef struct Rotors
     T rot2;
     int r3;
     T rot3;
-} ROTORS;
+} Rotors;
+
+Rotors ROTORS;
 
 int ps[6][27] = {
     { 2, 20,  0, 12, 14,  8,  3, 21, 22, 23,  6,  4, 10, 24,  7, 18, 16,
