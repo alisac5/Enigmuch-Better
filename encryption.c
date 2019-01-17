@@ -1,5 +1,10 @@
 #include <string.h>
-typedef unsigned char T; // ranges from 0 to 26 inclusive
+//typedef uint8_t io_addr_t; 
+#ifndef __TYPEDEF_T__
+#define __TYPEDEF_T__
+typedef unsigned char T; // ranges from 0 to 26 inclusive 
+#endif
+
 typedef unsigned int K; // ranges from 0 to 2^20 - 1 inclusive
 
 T encrypt(K key, T input)
