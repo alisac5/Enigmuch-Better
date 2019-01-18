@@ -56,7 +56,7 @@
 					## What is Enigmuchbetter?
 					The Enigmuchbetter is a pocket sized encryption device that is heavily inspired by the Enigma. 
 					It features our own custom cipher for encryption and decryption.
-					
+
 					<img class="plain" style="height: 50%; width: 50%;" src="img/enigma.png">
 				</textarea>
 			</section>
@@ -143,7 +143,15 @@
 				<section>
 					<div>
 						<h2>Original Enigma Design</h2>
-						<img class="plain"  style="height: 1%; width: 50%;" src="img/rotor_explanation.png">
+						<img class="plain"  style="height: 0.5%; width: 50%;" src="img/rotor_explanation.png">
+					</div>
+				</section>
+				
+				<section>
+					<div>
+						<h2>Original Rotors</h2>
+						<img class="plain"  style="float: left" src="img/orig_rot.png">
+						<img class="plain"  style="float: right" src="img/rotated_rotor.png">
 					</div>
 				</section>
 			</section>
@@ -155,18 +163,21 @@
 							"[The] major weakness of the system was that no letter could be enciphered to itself. 
 							This meant that some possible solutions could quickly be eliminated because of the
 							same letter appearing in the same place in both the ciphertext and the putative 
-							piece of plaintext. Comparing the possible plaintext Keine besonderen Ereignisse 
-							(literally, "no special occurrences" [...]), with a section of ciphertext, might
-							produce the following:" 
+							piece of plaintext." 
 							(Cryptanalysis of the Enigma)
 						</textarea>
 				</section>
 
-				<section>
-					<h1>Flaw Example</h1>
-					<div>
+				<section data-markdown>
+					<textarea data-template>
+						## Flaw Example
+						"Comparing the possible plaintext Keine besonderen Ereignisse 
+						(literally, "no special occurrences" [...]), with a section of ciphertext, might
+						produce the following:"
+						(Cryptanalysis of the Enigma)
+						
 						<img class="plain" src="img/exclusion_of_some_plaintext.png">
-					</div>
+					</textarea>
 				</section>
 
 				<section data-markdown>
@@ -182,7 +193,7 @@
 				<textarea data-template>
 					## REFERENCES
 					[Cryptanalysis of the Enigma](https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma)
-
+					[Enigma machine](https://en.wikipedia.org/wiki/Enigma_machine)
 					[Stanford CS106J](https://web.stanford.edu/class/cs106j/assignments/Assignment-05/Cryptography.pdf)
 				</textarea>
 			</section>
