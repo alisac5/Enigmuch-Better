@@ -15,7 +15,7 @@ enum MODE
 {
     ENCRYPT,
     DECRYPT
-}
+};
 
 // a collection of three rotors and their respective rotations
 // each rotor is specified as an integer index into the array
@@ -121,9 +121,65 @@ T char2T(char c)
     else abort();
 }
 
+// Prompt the user to select the mode (encrypt/decrypt) and return the selection
+enum MODE getModeFromUser()
+{
+    return ENCRYPT; // dummy return
+}
+
+// Prompt the user to set the initial rotor selection and rotations.
+void setInitialState()
+{
+    // dummy initial state
+    ROTORS = (Rotors){
+        .r1 = 0,
+        .rot1 = char2T('A'),
+        .r2 = 1,
+        .rot2 = char2T('B'),
+        .r3 = 2,
+        .rot3 = char2T('C')
+    };
+}
+
+// Get the next character from the user.
+T nextChar()
+{
+    return char2T('A'); // dummy return
+}
+
+// Determine if the user is done encrypting/decrypting.
+bool isDone()
+{
+    return true; // dummy return
+}
+
 // Demo driver function
 int main()
 {
+    /***** sample main logic *****/
+
+    enum MODE mode; // the current mode of the board
+    while (true) {
+        mode = getModeFromUser();
+        if (mode == ENCRYPT) {
+            T p, c; // the current plaintext and corresponding ciphertext characters
+            setInitialState();
+            while (!isDone()) {
+                p = nextChar();
+                c = encrypt(p);
+            }
+        } else if (mode == DECRYPT) {
+            T c, p; // the current ciphertext and corresponding plaintext characters
+            setInitialState();
+            while (!isDone()) {
+                c = nextChar();
+                p = decrypt(c);
+            }
+        }
+    }
+
+    /***** end of sample main logic *****/
+
     int i;
     char plaintext[] = "THIS IS A TEST"; // strlen(plaintext) = 14
     char ciphertext[14];
