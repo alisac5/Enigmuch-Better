@@ -38,7 +38,7 @@ typedef struct Rotors
 } Rotors;
 Rotors ROTORS;
 
-// Prompt the user to set the initial rotor selection and rotations.
+// Set the initial state given the rotors and their rotations.
 void setInitialState(int r1, T rot1, int r2, T rot2, int r3, T rot3);
 
 // Change the rotations of the rotors being used.
