@@ -214,22 +214,24 @@ int main()
 
     /***** end of sample main logic *****/
 
-    int i;
-    char plaintext[] = "THIS IS A TEST"; // strlen(plaintext) = 14
-    char ciphertext[14];
-    char decipheredtext[14];
+    int i, len = 1;
+    char plaintext[] = "a"; // strlen(plaintext) = 14
+    char ciphertext[len];
+    char decipheredtext[len];
 
     // Start test
     setInitialState();
 
     // print the plaintext message
-    for (i = 0; i < 14; i++) {
+    printf("plaintext      : ");
+    for (i = 0; i < len; i++) {
         printf("%c", plaintext[i]);
     }
     printf("\n");
 
     // encrypt the plaintext and print it
-    for (i = 0; i < 14; i++) {
+    printf("ciphertext     : ");
+    for (i = 0; i < len; i++) {
         // printState();
         ciphertext[i] = encrypt(char2T(plaintext[i]));
         printf("%c", T2Char(ciphertext[i]));
@@ -238,8 +240,9 @@ int main()
     printf("\n");
 
     // decrypt the ciphertext and print it
+    printf("decrypted text : ");
     setInitialState();
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < len; i++) {
         // printState();
         decipheredtext[i] = decrypt(ciphertext[i]);
         printf("%c", T2Char(decipheredtext[i]));
