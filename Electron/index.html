@@ -58,6 +58,11 @@
 			</section>
 
 			<section>
+					<h1 class="segmentDisplay">Hi</h1>
+					<p>Start by presssing the <strong>'A'</strong> key</p>
+				</section>
+				
+			<section>
 				<section>
 					<h1>Hardware</h1>
 					<div class="imageColum" style="width:30%; ; float: left">
@@ -93,17 +98,9 @@
 				</section>
 			</section>
 
-			<section>
-				<h1 class="segmentDisplay">Hi</h1>
-				<p>Start by presssing the <strong>'A'</strong> key</p>
-			</section>
+			
 
-			<section>
-				<h2>Initial Values</h2>
-				<div class="segmentDisplay" style="font-family: 'Technology'; font-weight: normal; font-style: normal;">
-					<h1 class="segmentDisplay" style="text-shadow: 0 0 8px #FF0000;">Technology Regular</h1>
-				</div>
-			</section>
+			
 
 			<section>
 				<div>
@@ -114,11 +111,11 @@
 							<h2>Encrypt/Decrypt</h2>
 						<label  class="segmentDisplay largeDisplay" >0  0  0</label>
 						<br>
-						<input class = "cipherbox cipherbox_top" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
+						<input id="CIPHA" class = "cipherbox cipherbox_top" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
 						<br>
-						<input class = "cipherbox cipherbox_bottom" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
+						<input id = "CIPHB" class = "cipherbox cipherbox_bottom" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
 						<br>
-						<button class="btn btn-1 btn-1a cipherbox_btn" style=" float: left; margin-left: 5%; margin-right: 0px;">Clear</button> <button class="btn btn-1 btn-1a cipherbox_btn"  style=" float: left; margin-left: 0px; margin-right: 5%;">Decrypt</button>
+						<button id = "CIPH_CLEAR" class="btn btn-1 btn-1a cipherbox_btn" style=" float: left; margin-left: 5%; margin-right: 0px;" onclick="clearText()">Clear</button> <button id = "CIPH_TOGGLE" class="btn btn-1 btn-1a cipherbox_btn"  style=" float: left; margin-left: 0px; margin-right: 5%;" onclick="toggleEncryptDecrypt()">Decrypt</button>
 					</div>
 					<div class="column middle" style="background-color: white; height:600px;">LESGO</div>
 				</div>
@@ -193,6 +190,8 @@
 		// - https://github.com/hakimel/reveal.js#configuration
 		// - https://github.com/hakimel/reveal.js#dependencies
 		Reveal.initialize({
+			slideNumber: false,
+
 			dependencies: [
 				{ src: 'plugin/markdown/marked.js' },
 				{ src: 'plugin/markdown/markdown.js' },

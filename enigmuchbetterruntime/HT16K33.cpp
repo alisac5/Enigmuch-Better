@@ -7,6 +7,8 @@
 #endif
 
 const uint8_t addr = 0x70; // HT16K33 default address
+#include <avr/pgmspace.h>
+
 
 static const uint8_t numbertable[] = {
     0x3F, /* 0 */
@@ -29,7 +31,7 @@ static const uint8_t numbertable[] = {
 
 // Copied from https://github.com/adafruit/Adafruit_LED_Backpack/blob/master/Adafruit_LEDBackpack.cpp
 
-static const uint16_t alphafonttable[] = {
+static const uint16_t alphafonttable[] PROGMEM = {
 
     0b0000000000000001,
     0b0000000000000010,
@@ -211,20 +213,19 @@ void HT16K33_H::setASCIIChar(const char value, uint8_t digit)
     // Check for in bound if not display error glyphs
     if (digit > 3)
     {
-        displayBuffer[0] = alphafonttable[127];
-        displayBuffer[1] = alphafonttable[127];
-        displayBuffer[2] = alphafonttable[127];
-        displayBuffer[3] = alphafonttable[127];
-
+        displayBuffer[0] = pgm_read_word_near(alphafonttable + 127);
+        displayBuffer[1] = pgm_read_word_near(alphafonttable + 127);
+        displayBuffer[2] = pgm_read_word_near(alphafonttable + 127);
+        displayBuffer[3] = pgm_read_word_near(alphafonttable + 127);
         return;
     }
     // check for valid ascii, if not display error glyphs
     if (value > 127)
     {
-        displayBuffer[digit] = alphafonttable[127];
+        displayBuffer[digit] = pgm_read_word_near(alphafonttable + 127);
         return;
     }
-    displayBuffer[digit] = alphafonttable[value];
+    displayBuffer[digit] = pgm_read_word_near(alphafonttable + value);
 }
 
 void HT16K33_H::loop()
@@ -242,6 +243,3 @@ void HT16K33_H::loop()
         }
     }
 }
-
-
-

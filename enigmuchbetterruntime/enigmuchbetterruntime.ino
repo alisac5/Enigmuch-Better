@@ -8,8 +8,9 @@
 
 HT16K33_H disp; 
 DemoController demo; 
-unsigned int baseTimer; 
-unsigned int scanKeyTimer; //Overflows sonce every 16 seconds
+//unsigned int baseTimer; 
+//unsigned int scanKeyTimer; //Overflows sonce every 16 seconds
+
 
 int mode; 
 void setup() {
@@ -26,8 +27,8 @@ void setup() {
   disp.setVisible(1); 
   
   demo.begin(&disp);
-  baseTimer = millis(); 
-  scanKeyTimer = millis(); 
+  //baseTimer = millis(); 
+  //scanKeyTimer = millis(); 
   mode = 1; 
   setInitialState(0,0,0,0,0,0); 
   
@@ -41,8 +42,8 @@ void loop() {
 
 // Update once every 16ms
  // flood();
-
-    scanKeyTimer = millis();
+/*
+  scanKeyTimer = millis();
   if((scanKeyTimer - baseTimer) > 100){
     baseTimer = millis(); 
     scanKeys(); 
@@ -55,7 +56,9 @@ void loop() {
 
    
   } 
-  
+  */
+
+ demo.loop();
   
 }
 
@@ -94,6 +97,7 @@ T preformEncryption(){
   disp.setChar((char) output+ 65,3);
   //LedWrite(output,HIGH);
   // Also Output Cipher data to Serial 
+  /*
   if(mode == 0)
   Serial.print("ENC ");
   else
@@ -106,6 +110,7 @@ T preformEncryption(){
   Serial.print((char)output+65); 
   Serial.println();
   //LedWrite(output,LOW);
+  */
 
 return output;
 

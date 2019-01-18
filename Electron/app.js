@@ -52,6 +52,34 @@ var doSerial = function () {
 
         parser.on('data', data => {
             console.log('got word from arduino:', data);
+
+            // If Encrypt : Place in enc 
+            // If Decrypt : Place in dec 
+            var plainbyte,cipherbyte; 
+
+            console.log(data.substring(0,3));
+            if(data.substring(0,3) == "DEC"){
+                plainbyte = data.substring(5,6);
+                cipherbyte = data.substring(4,5);
+                ciphertext+=cipherbyte; 
+                plaintext+=plainbyte;
+                console.log("DATA _ DECRYPT " + plainbyte + cipherbyte);
+                updateText();
+
+
+            }
+            
+            if(data.substring(0,3) == "ENC"){
+                console.log("DATA _ ENCRYPT");
+                cipherbyte = data.substring(5,6);
+                plainbyte = data.substring(4,5);
+                ciphertext+=cipherbyte; 
+                plaintext+=plainbyte;
+                updateText();
+                console.log("DATA _ ENCRYPT " + plainbyte + cipherbyte);
+            }
+            
+
         });
 
         port.on('error', error => {
@@ -64,9 +92,10 @@ var doSerial = function () {
 
 
     }).catch((err) => {
-      //  alert("Failed to connect to arduino. Please check power/connections." + err.message);
-      Reveal.slide(2, 0, 0);
-  
+      alert("Failed to connect to arduino. Please check power/connections." + err.message);
+     // Reveal.slide(0, 0, 0);
+     toggleNav(true);
+
       console.log(err);
     });
 }
@@ -76,9 +105,74 @@ function setArduinoSlide( slide){
         if (err) {
           return console.log('Error on write: ', err.message);
         }
-        console.log('message written');
+        console.log('message written' + 'SLD ' + slide +'\n');
       });
 }
+
+
+function SetArduinoIV(){
+    port.write('DFT \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written DFT');
+      });
+}
+
+
+function setArduinoModeEncrypt(){
+    port.write('ENC \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written : ENC');
+      });
+}
+
+function SetArduinoModeDecrypt(){
+    port.write('DEC \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written : DEC');
+      });
+}
+    var plaintext = "";
+    var ciphertext = "";
+    var mode = 0; // 0 Encrypt 1 = decrypt
+
+function clearText(){
+    plaintext = ""; 
+    ciphertext = ""; 
+    updateText(); 
+//    SetArduinoIV(); // Reset IV counters 
+}
+
+function updateText(){
+
+        document.getElementById("CIPHA").value = plaintext; 
+        document.getElementById("CIPHB").value = ciphertext; 
+
+}
+
+function toggleEncryptDecrypt(){
+    if(mode == 1){
+        // Is Encrypt. Switch to decrypt 
+        clearText(); 
+        SetArduinoModeDecrypt();
+        document.getElementById("CIPH_TOGGLE").innerText = "Encrypt"; 
+
+        mode = 0; 
+    }else{
+        // is Decrypt. Switch to encrypt 
+        clearText(); 
+        setArduinoModeEncrypt(); 
+        document.getElementById("CIPH_TOGGLE").innerText = "Decrypt"; 
+        mode = 1; 
+    }
+}
+
+
 var isTestingHW= false; 
 function testHardwareHandler(){
     var button = document.getElementById("hwtstbtn");

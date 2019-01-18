@@ -3,7 +3,7 @@
 #include "HT16K33.h"
 
 
-typedef enum {NONE =0,SLIDE=1} commandType;
+typedef enum {NONE =0,SLIDE=1,DEMO_ENCRYPT = 3, DEMO_DECRYPT = 4,SET_STATE = 5,SET_DEFAULT = 6} commandType;
 
 typedef struct command{
   commandType  c; // The command 
@@ -24,7 +24,8 @@ class DemoController{
     void doSlide(int slide);
     commandType getCMD(const char data[4]);
     void stepDemoLighting();
-
+    void demoInputLoop(int mode);
+    T demoCipher(int mode);
     static const int CMD_NONE = -1; 
     static const int CMD_SLIDE = 0x10; 
 
