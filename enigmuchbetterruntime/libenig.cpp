@@ -86,8 +86,12 @@ void LEDAllOn(){
 void scanKeys()
 {
     // Scans all the keyboard keys and stores the results
-    uint16_t IOEXP2_data;
-    uint16_t IOEXP3_data;
+     uint16_t IOEXP2_data;
+     uint16_t IOEXP3_data;
+
+    
+    
+    
     const io_addr_t bank2Addr = {0, IOEXP2_ADDR};
     const io_addr_t bank3Addr = {0, IOEXP3_ADDR};
 
@@ -96,23 +100,23 @@ void scanKeys()
     // Now clean up the raw data. We want a bitvector 27 bits long
     // that shows keypres state for A-Z + space buttons
 
-    IOEXP2_data = ~IOEXP2_data;
-    IOEXP3_data = ~IOEXP3_data; // Swap active low to active high
+    const uint16_t A_0  = ~IOEXP2_data;
+    const uint16_t B_0  = ~IOEXP3_data; // Swap active low to active high
 
-    // First 5 bit sof IOEXPander 2 not connected to buttons. Remove them
-    IOEXP2_data = (IOEXP2_data >> 5) & 0b0000011111111111;
-    // Now shift down the first 5 bit sfrom IOExpander3 data
-    IOEXP2_data = IOEXP2_data | ((IOEXP3_data & 0b0000000000011111) << 10);
-    // Now shift down first 5 bit of IOEXpander 3
-    IOEXP3_data = (IOEXP3_data >> 5) & 0b0000001111111111;
+    const uint16_t A_1  = A_0 >> 5; 
+    const uint16_t B_1 = B_0&0x001F; 
+    const uint16_t A_2  = (A_1 | (B_1 << 11)); 
+    const uint16_t B_2 = B_0 >> 5; 
 
+ 
+   
 
 
     // Now data is clean. Assign to buffer
-    lastKeyScanA = (IOEXP2_data^lastRawKeyScanA)&IOEXP2_data;
-    lastKeyScanB = (IOEXP3_data^lastKeyScanB)&IOEXP2_data;
-    lastRawKeyScanA = IOEXP2_data;
-    lastRawKeyScanB = IOEXP3_data;
+    lastKeyScanA = (A_2^lastRawKeyScanA)&A_2;
+    lastKeyScanB = (B_2^lastKeyScanB)&B_2;
+    lastRawKeyScanA = A_2;
+    lastRawKeyScanB = B_2;
 }
 
 /* Note : 
