@@ -103,13 +103,6 @@
 			</section>
 
 			<section>
-				<h2>Initial Values</h2>
-				<div class="segmentDisplay" style="font-family: 'Technology'; font-weight: normal; font-style: normal;">
-					<h1 class="segmentDisplay" style="text-shadow: 0 0 8px #FF0000;">Technology Regular</h1>
-				</div>
-			</section>
-
-			<section>
 				<div>
 					<!--Segment dispslays-->
 				</div>
@@ -152,7 +145,7 @@
 				
 				<section>
 					<div>
-						<h2>Original Rotors</h2>
+						<h2>Initial and Rotated Rotors</h2>
 						<img class="plain"  style="float: left" src="img/orig_rot.png">
 						<img class="plain"  style="float: right" src="img/rotated_rotor.png">
 					</div>
@@ -173,25 +166,24 @@
 
 			<section>
 				<section data-markdown>
-						<textarea data-template>
-							## Original Enigma Flaw
-							"[The] major weakness of the system was that no letter could be enciphered to itself. 
-							This meant that some possible solutions could quickly be eliminated because of the
-							same letter appearing in the same place in both the ciphertext and the putative 
-							piece of plaintext." 
-							(Cryptanalysis of the Enigma)
-						</textarea>
-				</section>
-
-				<section data-markdown>
 					<textarea data-template>
-						## Flaw Example
+						## Original Enigma Flaw Example
 						"Comparing the possible plaintext Keine besonderen Ereignisse 
 						(literally, "no special occurrences" [...]), with a section of ciphertext, might
 						produce the following:"
 						(Cryptanalysis of the Enigma)
 						
 						<img class="plain" src="img/exclusion_of_some_plaintext.png">
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						"[The] major weakness of the system was that no letter could be enciphered to itself. 
+						This meant that some possible solutions could quickly be eliminated because of the
+						same letter appearing in the same place in both the ciphertext and the putative 
+						piece of plaintext." 
+						(Cryptanalysis of the Enigma)
 					</textarea>
 				</section>
 
@@ -225,6 +217,9 @@
 		// More info about config & dependencies:
 		// - https://github.com/hakimel/reveal.js#configuration
 		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.configure({
+			autoSlide: 10000
+		});
 		Reveal.initialize({
 			dependencies: [
 				{ src: 'plugin/markdown/marked.js' },
