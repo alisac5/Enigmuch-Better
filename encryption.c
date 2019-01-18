@@ -5,6 +5,21 @@
 typedef unsigned char T; // ranges from 0 to 26 inclusive 
 #endif
 
+typedef int bool;
+#define false 0
+#define true 1
+
+// the possible modes the board can be in
+enum MODE
+{
+    ENCRYPT,
+    DECRYPT
+}
+
+// a collection of three rotors and their respective rotations
+// each rotor is specified as an integer index into the array
+// of permutations, and the rotations are specified as which
+// character appears "on top" at the current moment
 typedef struct Rotors
 {
     int r1;
@@ -14,10 +29,9 @@ typedef struct Rotors
     int r3;
     T rot3;
 } Rotors;
-
 Rotors ROTORS;
 
-//Permutations from permutations.txt
+// permutations from permutations.txt
 int ps[6][27] = {
     {5, 4, 11, 2, 10, 6, 7, 17, 22, 9, 23, 26, 13, 8, 25, 20, 0, 14, 16, 21, 1, 12, 19, 24, 18, 15, 3}, 
     {13, 5, 4, 17, 10, 11, 0, 23, 22, 20, 2, 3, 25, 15, 16, 12, 19, 8, 1, 9, 18, 24, 26, 7, 6, 21, 14},
@@ -31,6 +45,7 @@ int ps[6][27] = {
     {15, 20, 25, 4, 13, 16, 21, 9, 19, 0, 10, 17, 2, 11, 5, 18, 6, 14, 12, 1, 23, 22, 26, 8, 3, 24, 7}
     }
 
+// the inverse permutations
 int invs[6][27] = {
     {16, 20, 3, 26, 1, 0, 5, 6, 13, 9, 4, 2, 21, 12, 17, 25, 18, 7, 24, 22, 15, 19, 8, 10, 23, 14, 11}, 
     {6, 18, 10, 11, 2, 1, 24, 23, 17, 19, 4, 5, 15, 0, 26, 13, 14, 3, 20, 16, 9, 25, 8, 7, 21, 12, 22},
@@ -44,11 +59,15 @@ int invs[6][27] = {
     {9, 19, 12, 24, 3, 14, 16, 26, 23, 7, 10, 13, 18, 4, 17, 0, 5, 11, 15, 8, 1, 6, 21, 20, 25, 2, 22}
     } 
 
+// Return a "one level deep" encryption of a given character. Note that this
+// function should be used multiple times if multiple rotors are being used
+// in the encryption scheme.
 T phase(int rotor_num, T input, T rotation)
 {
     return ps[rotor_num][input + rotation] - rotation;
 }
 
+// The inverse of the above function.
 T inv_phase(int rotor_num, T output, T rotation)
 {
     // ps[input + rotation] - rotation = output
@@ -58,6 +77,7 @@ T inv_phase(int rotor_num, T output, T rotation)
     return invs[rotor_num][output + rotation] - rotation;
 }
 
+// Change the rotations of the rotors being used.
 void nextState(Rotors *r)
 {
     r->rot1++;
@@ -65,6 +85,7 @@ void nextState(Rotors *r)
     r->rot3++;
 }
 
+// Encrypt a given character using the current state of the three rotors.
 T encrypt(T input)
 //@requires input <= 26;
 //@ensures \result <= 26;
@@ -76,6 +97,7 @@ T encrypt(T input)
     return third_round;
 }
 
+// Decrypt a given character using the current state of the three rotors.
 T decrypt(T output)
 {
     Rotors r = ROTORS;
