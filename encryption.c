@@ -231,7 +231,7 @@ int main()
     // encrypt the plaintext and print it
     for (i = 0; i < 14; i++) {
         // printState();
-        ciphertext[i] = encrypt(plaintext[i]);
+        ciphertext[i] = encrypt(char2T(plaintext[i]));
         printf("%c", T2Char(ciphertext[i]));
         nextState();
     }
@@ -247,7 +247,8 @@ int main()
     }
     printf("\n");
 
-    // int output = encrypt(char2T('A'));
+    // setInitialState();
+    // int output = encrypt(char2T('C'));
     // printf("%c\n", T2Char(decrypt(output)));
     // End test
 
