@@ -39,10 +39,10 @@ typedef struct Rotors
 Rotors ROTORS;
 
 // Prompt the user to set the initial rotor selection and rotations.
-setInitialState()
+void setInitialState(int r1, T rot1, int r2, T rot2, int r3, T rot3);
 
 // Change the rotations of the rotors being used.
-void nextState()
+void nextState();
 
 // Encrypt a given character using the current state of the three rotors.
 //@requires input <= 26;
@@ -53,4 +53,4 @@ T encrypt(T input);
 T decrypt(T output);
 
 //Converts a T type to a char type
-char T2Char(T t)
+char T2Char(T t);
