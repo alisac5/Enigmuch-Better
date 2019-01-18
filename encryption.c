@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 //typedef uint8_t io_addr_t; 
 #ifndef __TYPEDEF_T__
 #define __TYPEDEF_T__
@@ -18,7 +19,7 @@ typedef struct Rotors
 Rotors ROTORS;
 
 //Permutations from permutations.txt
-int ps[6][27] = {
+int ps[10][27] = {
     {5, 4, 11, 2, 10, 6, 7, 17, 22, 9, 23, 26, 13, 8, 25, 20, 0, 14, 16, 21, 1, 12, 19, 24, 18, 15, 3}, 
     {13, 5, 4, 17, 10, 11, 0, 23, 22, 20, 2, 3, 25, 15, 16, 12, 19, 8, 1, 9, 18, 24, 26, 7, 6, 21, 14},
     {13, 11, 15, 0, 10, 6, 25, 16, 23, 2, 1, 8, 26, 24, 7, 18, 9, 4, 12, 19, 5, 14, 22, 3, 20, 17, 21}, 
@@ -29,9 +30,9 @@ int ps[6][27] = {
     {4, 24, 25, 21, 14, 12, 13, 8, 26, 2, 9, 16, 3, 22, 20, 23, 15, 19, 17, 6, 11, 1, 0, 5, 7, 18, 10}, 
     {20, 0, 22, 14, 13, 3, 16, 21, 5, 15, 25, 2, 18, 26, 12, 4, 1, 19, 10, 6, 24, 17, 23, 8, 11, 9, 7}, 
     {15, 20, 25, 4, 13, 16, 21, 9, 19, 0, 10, 17, 2, 11, 5, 18, 6, 14, 12, 1, 23, 22, 26, 8, 3, 24, 7}
-    }
+    };
 
-int invs[6][27] = {
+int invs[10][27] = {
     {16, 20, 3, 26, 1, 0, 5, 6, 13, 9, 4, 2, 21, 12, 17, 25, 18, 7, 24, 22, 15, 19, 8, 10, 23, 14, 11}, 
     {6, 18, 10, 11, 2, 1, 24, 23, 17, 19, 4, 5, 15, 0, 26, 13, 14, 3, 20, 16, 9, 25, 8, 7, 21, 12, 22},
     {3, 10, 9, 23, 17, 20, 5, 14, 11, 16, 4, 1, 18, 0, 21, 2, 7, 25, 15, 19, 24, 26, 22, 8, 13, 6, 12}, 
@@ -42,11 +43,11 @@ int invs[6][27] = {
     {22, 21, 9, 12, 0, 23, 19, 24, 7, 10, 26, 20, 5, 6, 4, 16, 11, 18, 25, 17, 14, 3, 13, 15, 1, 2, 8}, 
     {1, 16, 11, 5, 15, 8, 19, 26, 23, 25, 18, 24, 14, 4, 3, 9, 6, 21, 12, 17, 0, 7, 2, 22, 20, 10, 13}, 
     {9, 19, 12, 24, 3, 14, 16, 26, 23, 7, 10, 13, 18, 4, 17, 0, 5, 11, 15, 8, 1, 6, 21, 20, 25, 2, 22}
-    } 
+    };
 
 T phase(int rotor_num, T input, T rotation)
 {
-    return ps[rotor_num][input + rotation] - rotation;
+    return (ps[rotor_num][(input + rotation) % 27] - rotation + 27) % 27;
 }
 
 T inv_phase(int rotor_num, T output, T rotation)
@@ -55,14 +56,15 @@ T inv_phase(int rotor_num, T output, T rotation)
     // ps[input + rotation] = output + rotation
     // input + rotation = inv[output + rotation]
     // input = inv[output + rotation] - rotation
-    return invs[rotor_num][output + rotation] - rotation;
+    return (invs[rotor_num][(output + rotation) % 27] - rotation + 27) % 27;
 }
 
 void nextState(Rotors *r)
 {
-    r->rot1++;
-    r->rot2++;
-    r->rot3++;
+    //r->rot1++;
+    //r->rot2++;
+    //r->rot3++;
+    return;
 }
 
 T encrypt(T input)
@@ -80,31 +82,44 @@ T decrypt(T output)
 {
     Rotors r = ROTORS;
     T third_inv = inv_phase(r.r3, output, r.rot3);
-    T second_inv = inv_phase(r.r2, output, r.rot2);
-    T first_inv = inv_phase(r.r1, output, r.rot1);
+    T second_inv = inv_phase(r.r2, third_inv, r.rot2);
+    T first_inv = inv_phase(r.r1, second_inv, r.rot1);
     return first_inv;
 }
 
 // Helper function
 T char2T(char c)
 {
-  if(c == 32) //Space --> 26
-    return 26;
-  else if(65 <= c && c <= 90) //Uppercase letters mapped
-    return c - 65;
-  else if(97 <= c && c <= 122) //Lowercase letters mapped
-    return c - 97;
-  else abort();
+    if(c == 32) //Space --> 26
+      return 26;
+    else if(65 <= c && c <= 90) //Uppercase letters mapped
+      return c - 65;
+    else if(97 <= c && c <= 122) //Lowercase letters mapped
+      return c - 97;
+    else abort();
 }
 
 // Demo driver function
 int main()
 {
-  int i;
-  char plaintext[] = "THIS IS A TEST"; // strlen(plaintext) = 14
-  char ciphertext[14];
-  char decipheredtext[14];
-  
+    int i;
+    char plaintext[] = "THIS IS A TEST"; // strlen(plaintext) = 14
+    char ciphertext[14];
+    char decipheredtext[14];
+
+    // Start test
+    ROTORS.r1 = 0;
+    ROTORS.r2 = 1;
+    ROTORS.r3 = 2;
+
+    ROTORS.rot1 = 1;
+    ROTORS.rot2 = 4;
+    ROTORS.rot3 = 23;
+
+    int output = encrypt(3);
+    printf("%d\n", decrypt(output));
+    // End test
+
   /*
   // Initialization
   K key = nextState(NULL);
