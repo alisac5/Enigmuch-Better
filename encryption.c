@@ -182,7 +182,7 @@ int main()
     char decipheredtext[len];
 
     // Start test
-    setInitialState(0, 1, 1, 4, 2, 23);
+    setInitialState(0, 0, 0, 0, 0, 0);
 
     // print the plaintext message
     printf("plaintext      : ");
@@ -203,7 +203,7 @@ int main()
 
     // decrypt the ciphertext and print it
     printf("decrypted text : ");
-    setInitialState(0, 1, 1, 4, 2, 23);
+    setInitialState(0, 0, 0, 0, 0, 0);
     for (i = 0; i < len; i++) {
         // printState();
         decipheredtext[i] = decrypt(ciphertext[i]);
