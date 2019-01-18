@@ -64,8 +64,10 @@ var doSerial = function () {
 
 
     }).catch((err) => {
-        alert("Failed to connect to arduino. Please check power/connections." + err.message);
-        console.log(err);
+      //  alert("Failed to connect to arduino. Please check power/connections." + err.message);
+      Reveal.slide(2, 0, 0);
+  
+      console.log(err);
     });
 }
 

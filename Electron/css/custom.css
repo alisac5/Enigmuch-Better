@@ -1,6 +1,10 @@
 .reveal .segmentDisplay {
     font-family: 'Technology';
-    color: #c0392b;
+   /* color: #c0392b;*/
+   color:red;
+   text-shadow: 0 0 8px #FF0000;
+   font-weight: normal; 
+   font-style: normal;
 }
 
 .hwAction{
@@ -67,3 +71,55 @@ div#wave {
     background: #fff;
 
   }
+
+
+#COL_SPACER {
+  column-count: 3;
+
+}
+
+.column {
+  float: left;
+}
+
+.left, .right {
+  width: 70%;
+}
+
+.middle {
+  width: 30%;
+}
+
+.reveal .largeDisplay{
+  font-size: 3em;
+}
+
+.cipherbox{
+  width: 80%;
+  height: 80px;
+  font-family: "Source Sans Pro", Helvetica, sans-serif;
+  font-size: 2em;
+  color: #2c3e50;
+  border: none;
+  padding: 5%;
+  margin-left: 5%;
+  margin-right : 5%;
+}
+
+.cipherbox_top{
+  background-color: #3498db;
+
+}
+
+.cipherbox_bottom{
+  background-color: #2980b9;
+  margin-bottom: 0px;
+}
+
+.reveal .cipherbox_btn{
+  font-size: .5em;
+  margin-top: 0px;
+  padding: 10px 109px;
+  
+}
+
