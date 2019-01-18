@@ -43,7 +43,8 @@ var doSerial = function () {
         // Read the port data
         port.on("open", () => {
             console.log('serial port open');
-            setTimeout(function(){ Reveal.slide(2, 0, 0); setArduinoSlide(20); }, 2000);
+            setTimeout(function(){ Reveal.slide(2, 0, 0); 
+                setArduinoSlide(20); }, 2000);
         });
 
         var Readline = Serialport.parsers.Readline; // make instance of Readline parser
@@ -160,14 +161,14 @@ function toggleEncryptDecrypt(){
         // Is Encrypt. Switch to decrypt 
         clearText(); 
         SetArduinoModeDecrypt();
-        document.getElementById("CIPH_TOGGLE").innerText = "Encrypt"; 
+        document.getElementById("CIPH_TOGGLE").innerText = "Decrypting"; 
 
         mode = 0; 
     }else{
         // is Decrypt. Switch to encrypt 
         clearText(); 
         setArduinoModeEncrypt(); 
-        document.getElementById("CIPH_TOGGLE").innerText = "Decrypt"; 
+        document.getElementById("CIPH_TOGGLE").innerText = "Encrypting"; 
         mode = 1; 
     }
 }
@@ -202,6 +203,8 @@ Reveal.addEventListener('slidechanged', function (event) {
     if (event.indexh == 0 || event.indexh == 1) {
         // Slide every five seconds
         toggleNav(false);
+        clearText();
+        
     } else {
         // Slide every five seconds
         toggleNav(true);
@@ -219,6 +222,15 @@ Reveal.addEventListener('slidechanged', function (event) {
         setArduinoSlide(30);
 
     }
+
+    if(event.indexh == 5){
+        if(mode == 0){
+            setArduinoModeEncrypt();
+        }else{
+            SetArduinoModeDecrypt();
+        }
+    }
+
 
 });
 

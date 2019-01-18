@@ -107,7 +107,10 @@ T DemoController::demoCipher(int mode)
   }
    char input_c = (char)input+65; 
    char output_c = (char)output+65;
-    disp->setText("HELP");
+   disp->setChar(input_c,2); 
+      disp->setChar(output_c,3); 
+
+   // disp->setText("HELP");
 
     Serial.print(input_c);
     Serial.print(output_c);
