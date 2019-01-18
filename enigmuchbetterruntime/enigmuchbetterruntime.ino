@@ -4,16 +4,14 @@
 #include "libenig.h"
 #include "HT16K33.h"
 #include "demo.h"
-
+#include "encryption.h"
 
 HT16K33_H disp; 
 DemoController demo; 
-unsigned long timeA;
-unsigned long timeB;
-unsigned long timeAVG;
 unsigned int baseTimer; 
 unsigned int scanKeyTimer; //Overflows sonce every 16 seconds
 
+int mode; 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -26,31 +24,38 @@ void setup() {
   disp.begin();
   // Turn on Quad Character Alphanumeric Display s
   disp.setVisible(1); 
+  
   demo.begin(&disp);
   baseTimer = millis(); 
   scanKeyTimer = millis(); 
+  mode = 1; 
+  setInitialState(0,0,0,0,0,0); 
+  
 }
  
 //unsigned int updateCipherTimer  //Overflows sonce every 16 seconds 
 /* Dispatch time sensitive tasks*/
 
 void loop() {
+  static T activeKey; 
 
-  T activeKey; 
 // Update once every 16ms
+ // flood();
+
     scanKeyTimer = millis();
-  if((scanKeyTimer - baseTimer) > 16){
+  if((scanKeyTimer - baseTimer) > 100){
     baseTimer = millis(); 
     scanKeys(); 
-    /*
+    
     if(getActiveKey() != NO_KEY_ACTIVE){
-      preformEncryption(); 
-    }*/
-
-    for(int i=0; i< 26; i++){
-      LedWrite(i,getKeyRaw((T)i)); 
+     LedWrite(activeKey,LOW);
+     activeKey =  preformEncryption(); 
+     LedWrite(activeKey,HIGH);
     }
+
+   
   } 
+  
   
 }
 
@@ -65,7 +70,8 @@ it is held for over 1 second.
 
 ~ 25 ms execution time + 1000 delay 
 */
-void preformEncryption(){
+
+T preformEncryption(){
   T input;  // The currently pressed key
   T output; // What the key was mapped to 
   
@@ -73,38 +79,46 @@ void preformEncryption(){
   //scanKeys();
   // Get the active key 
   input = getActiveKey();
-  /*
-  if(input == NO_KEY_ACTIVE){
-    return; // No key pressed 
-  }
-  */
+
+
 
   // Run Cipher here 
-  output = stupidCipher(input); 
+  output = (mode == 0)? encrypt(input) : decrypt(input); 
+  nextState();
+  
 
   // Update LED and display 
   // Put input on LEFT LED 
   disp.setChar((char) input+ 65,2);
   // Put output on Right LED 
   disp.setChar((char) output+ 65,3);
-  LedWrite(output,HIGH);
+  //LedWrite(output,HIGH);
   // Also Output Cipher data to Serial 
-  Serial.print("input = ");
-  Serial.print(input); 
-  Serial.print(" output = ");
-  Serial.print(output); 
-  Serial.println();
-  LedWrite(output,LOW);
+  if(mode == 0)
+  Serial.print("ENC ");
+  else
+  Serial.print("DEC ");
 
+  
+  Serial.print("input = ");
+  Serial.print((char)input+65); 
+  Serial.print(" output = ");
+  Serial.print((char)output+65); 
+  Serial.println();
+  //LedWrite(output,LOW);
+
+return output;
 
   
 }
+
+
 /* Example Cipher Function*/
 T stupidCipher(T input){
   return (T) random(0, 27); // +1 for space
 }
 
-
+/*
 void testKeyboardLED(){
  for (int i=0; i < 27; i++){
            io_addr_t addr = intToLEDPin((unsigned int)i);
@@ -174,7 +188,7 @@ void testButtonGPIO(){
          Serial.println();
 
 }
-
+*/
 void flood(){
 for(int i=0; i < 27; i++){
 

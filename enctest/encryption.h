@@ -1,3 +1,6 @@
+#ifndef _H_ENCRYPT_
+#define _H_ENCRYPT_
+
 #include <string.h>
 #include <stdio.h>
 
@@ -32,7 +35,7 @@ enum MODE
    is used to determine how to appropriately change the state of
    the rotors.
 */
-typedef struct Rotors
+typedef struct rotors
 {
     int r1;
     T rot1;
@@ -42,7 +45,8 @@ typedef struct Rotors
     T rot3;
     int count;
 } Rotors;
-Rotors ROTORS;
+
+//Rotors ROTORS;
 
 // Set the initial state given the rotors and their rotations.
 void setInitialState(int r1, T rot1, int r2, T rot2, int r3, T rot3);
@@ -60,3 +64,4 @@ T decrypt(T output);
 
 //Converts a T type to a char type
 char T2Char(T t);
+#endif

@@ -1,5 +1,8 @@
+#ifndef _H_ENCRYPT_H
+#define _H_ENCRYPT_H
 #include <string.h>
 #include <stdio.h>
+
 
 //typedef uint8_t io_addr_t; 
 #ifndef __TYPEDEF_T__
@@ -42,7 +45,7 @@ typedef struct Rotors
     T rot3;
     int count;
 } Rotors;
-Rotors ROTORS;
+
 
 // Set the initial state given the rotors and their rotations.
 void setInitialState(int r1, T rot1, int r2, T rot2, int r3, T rot3);
@@ -60,3 +63,4 @@ T decrypt(T output);
 
 //Converts a T type to a char type
 char T2Char(T t);
+#endif
