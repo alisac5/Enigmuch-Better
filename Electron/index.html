@@ -34,7 +34,7 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h1>ENIGMUCHBETTER</h1>
+				<h1>ENIGMUCH-BETTER</h1>
 				<h3>The pocket Enigma machine</h3>
 				<button class="btn btn-1 btn-1a" onclick="Reveal.slide( 1, 0, 0 );">BEGIN</button>
 			</section>
@@ -50,10 +50,14 @@
 			</section>
 
 			<section data-markdown>
+					<img class="plain" style="width: 50%;" src="img/enigma.png">
+
 				<textarea data-template>
 					## What is Enigmuchbetter?
-					The Enigmuchbetter is a pocket sized encryption device that is heavily inpsired by the Enigma. 
+					The Enigmuchbetter is a pocket sized encryption device that is heavily inspired by the Enigma. 
 					It features our own custom cipher for encryption and decryption.
+
+					<img class="plain" style="height: 50%; width: 50%;" src="img/enigma.png">
 				</textarea>
 			</section>
 
@@ -117,9 +121,12 @@
 						<br>
 						<button id = "CIPH_CLEAR" class="btn btn-1 btn-1a cipherbox_btn" style=" float: left; margin-left: 5%; margin-right: 0px;" onclick="clearText()">Clear</button> <button id = "CIPH_TOGGLE" class="btn btn-1 btn-1a cipherbox_btn"  style=" float: left; margin-left: 0px; margin-right: 5%;" onclick="toggleEncryptDecrypt()">Decrypt</button>
 					</div>
-					<div class="column middle" style="background-color: white; height:600px;">LESGO</div>
+					<div class="column middle" style="background-color: white; height:600px;">
+						<img class="plain row middle" style="height: 45%;" src="img/encryption_path.png"></p>
+						<img class="plain" style="height: 45%; top: -30px; position: relative;" src="img/encryption_path_rot.png">
+					</div>
 				</div>
-							</section>
+			</section>
 
 			<section>
 				<section data-markdown>
@@ -136,9 +143,30 @@
 				<section>
 					<div>
 						<h2>Original Enigma Design</h2>
-						<img class="plain"  style="height: 1%; width: 50%;" src="img/rotor_explanation.png">
+						<img class="plain"  style="height: 0.5%; width: 50%;" src="img/rotor_explanation.png">
 					</div>
 				</section>
+				
+				<section>
+					<div>
+						<h2>Original Rotors</h2>
+						<img class="plain"  style="float: left" src="img/orig_rot.png">
+						<img class="plain"  style="float: right" src="img/rotated_rotor.png">
+					</div>
+				</section>
+
+				<section data-markdown="">
+					<div>
+						<textarea data-template>
+							<p>Permutations: A, B, C</p>
+							<p>Cyclic Permutation: <i>&rho;</i></p>
+							<p>Rotations: a, b, c</p>
+
+							<img class="plain" src="img/formulas.png">
+						</textarea>
+					</div>
+				</section>
+			</section>
 
 			<section>
 				<section data-markdown>
@@ -147,18 +175,21 @@
 							"[The] major weakness of the system was that no letter could be enciphered to itself. 
 							This meant that some possible solutions could quickly be eliminated because of the
 							same letter appearing in the same place in both the ciphertext and the putative 
-							piece of plaintext. Comparing the possible plaintext Keine besonderen Ereignisse 
-							(literally, "no special occurrences" [...]), with a section of ciphertext, might
-							produce the following:" 
+							piece of plaintext." 
 							(Cryptanalysis of the Enigma)
 						</textarea>
 				</section>
 
-				<section>
-					<h1>Flaw Example</h1>
-					<div>
+				<section data-markdown>
+					<textarea data-template>
+						## Flaw Example
+						"Comparing the possible plaintext Keine besonderen Ereignisse 
+						(literally, "no special occurrences" [...]), with a section of ciphertext, might
+						produce the following:"
+						(Cryptanalysis of the Enigma)
+						
 						<img class="plain" src="img/exclusion_of_some_plaintext.png">
-					</div>
+					</textarea>
 				</section>
 
 				<section data-markdown>
@@ -174,7 +205,9 @@
 				<textarea data-template>
 					## REFERENCES
 					[Cryptanalysis of the Enigma](https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma)
-
+					
+					[Enigma machine](https://en.wikipedia.org/wiki/Enigma_machine)
+					
 					[Stanford CS106J](https://web.stanford.edu/class/cs106j/assignments/Assignment-05/Cryptography.pdf)
 				</textarea>
 			</section>
