@@ -20,6 +20,10 @@ Adafruit_MCP23017 IOEXP3;
 
 uint16_t lastKeyScanA; // State of buttons A-?
 uint16_t lastKeyScanB; // State of buttons from ?+1-Z
+
+uint16_t lastRawKeyScanA; 
+uint16_t lastRawKeyScanB; 
+
 T quertyMap[27] ={16,22,4,17,19,24,20,8,14,15,0,18,3,5,6,7,9,10,11,25,23,2,21,1,13,12,26}; // Maps T to Querty order on keyboard 
 void enigenmuchbetter_setup()
 {
@@ -100,11 +104,15 @@ void scanKeys()
     // Now shift down the first 5 bit sfrom IOExpander3 data
     IOEXP2_data = IOEXP2_data | ((IOEXP3_data & 0b0000000000011111) << 10);
     // Now shift down first 5 bit of IOEXpander 3
-    IOEXP3_data = (IOEXP3_data >> 5) & 0b0000011111111111;
+    IOEXP3_data = (IOEXP3_data >> 5) & 0b0000001111111111;
+
+
 
     // Now data is clean. Assign to buffer
-    lastKeyScanA = IOEXP2_data;
-    lastKeyScanB = IOEXP3_data;
+    lastKeyScanA = (IOEXP2_data^lastRawKeyScanA)&IOEXP2_data;
+    lastKeyScanB = (IOEXP3_data^lastKeyScanB)&IOEXP2_data;
+    lastRawKeyScanA = IOEXP2_data;
+    lastRawKeyScanB = IOEXP3_data;
 }
 
 /* Note : 
@@ -130,6 +138,13 @@ T getKey(T pin)
 {
     // Key gey from last scan
     return (pin < 16) ? (lastKeyScanA >> pin) & 0x1 : (lastKeyScanB >> (pin - 16)) & 0x1;
+    //return 0x1&((pin >= 16)? (lastKeyScanA >> pin) : (lastKeyScanB >> (pin-16)));
+}
+
+T getKeyRaw(T pin)
+{
+    // Key gey from last scan
+    return (pin < 16) ? (lastRawKeyScanA >> pin) & 0x1 : (lastRawKeyScanB >> (pin - 16)) & 0x1;
     //return 0x1&((pin >= 16)? (lastKeyScanA >> pin) : (lastKeyScanB >> (pin-16)));
 }
 

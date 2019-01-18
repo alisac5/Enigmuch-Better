@@ -8,6 +8,12 @@
 
 HT16K33_H disp; 
 DemoController demo; 
+unsigned long timeA;
+unsigned long timeB;
+unsigned long timeAVG;
+unsigned int baseTimer; 
+unsigned int scanKeyTimer; //Overflows sonce every 16 seconds
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -21,24 +27,34 @@ void setup() {
   // Turn on Quad Character Alphanumeric Display s
   disp.setVisible(1); 
   demo.begin(&disp);
-
+  baseTimer = millis(); 
+  scanKeyTimer = millis(); 
 }
+ 
+//unsigned int updateCipherTimer  //Overflows sonce every 16 seconds 
+/* Dispatch time sensitive tasks*/
 
 void loop() {
-  // Run Test Active Key Subroutine 
-  //flood();
-  demo.loop();
-  // preformEncryption();
-  //flood(); 
- // disp.setText("PLS "); 
- // delay(2000);
- // disp.setText("HIRE "); 
- // delay(2000);
- // disp.setText("ME  "); 
- // delay(2000);
-  
 
+  T activeKey; 
+// Update once every 16ms
+    scanKeyTimer = millis();
+  if((scanKeyTimer - baseTimer) > 16){
+    baseTimer = millis(); 
+    scanKeys(); 
+    /*
+    if(getActiveKey() != NO_KEY_ACTIVE){
+      preformEncryption(); 
+    }*/
+
+    for(int i=0; i< 26; i++){
+      LedWrite(i,getKeyRaw((T)i)); 
+    }
+  } 
+  
 }
+
+
 
 
 /* Sample application loop. 
@@ -46,18 +62,22 @@ Notes :
 This is timer based. As such it will only update once 
 every second and a keypress will be double counted if 
 it is held for over 1 second.
+
+~ 25 ms execution time + 1000 delay 
 */
 void preformEncryption(){
   T input;  // The currently pressed key
   T output; // What the key was mapped to 
   
   // Update Keyboard Values 
-  scanKeys();
+  //scanKeys();
   // Get the active key 
   input = getActiveKey();
+  /*
   if(input == NO_KEY_ACTIVE){
     return; // No key pressed 
   }
+  */
 
   // Run Cipher here 
   output = stupidCipher(input); 
@@ -74,8 +94,6 @@ void preformEncryption(){
   Serial.print(" output = ");
   Serial.print(output); 
   Serial.println();
-
-  delay(1000); 
   LedWrite(output,LOW);
 
 
