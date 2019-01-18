@@ -63,8 +63,8 @@ void writeKeyboardLed(T pin, uint8_t d);
 void LedWrite(unsigned int input,uint8_t d);
 
 /* Take a guess*/
-void LedAllOn();
-void LedAllOff();
+void LedAllOn(); //
+void LedAllOff(); // 21080 us
 
 /* Reads a keyboard button and returns it's state
   LOL DON'T USE 
@@ -75,6 +75,8 @@ uint8_t readKeyboardButton(T pin);
 /*
 Gets the status of each key on the keyboard and stores it in a 
 cache. This should be called by either a loop or an ISR 
+
+Avg Execution time : 1104 us 
 */
 void scanKeys();
 
@@ -82,18 +84,22 @@ void scanKeys();
   Gets the currently presed key on the keyboard. If multiple keys are presssed, 
   the key with the lowest numerical value (A=0,Z=26 _ = 27) will be returned.
   Key data is buffered from last time scanKeys was called
+
+  Avg Execution time : 3 us 
+
 */
 T getActiveKey(); 
 
 /* Get the status of a Key. Key data is buffered from last time scanKeys was called*/
 uint8_t getKey(T pin);
+uint8_t getKeyRaw(T pin);
 
 
 /*******************
  * UTILITY FUNCTIONS
  ********************/
 
-
+ 
 
 /* Converts a type T to a physical LED pin.
 @requires 0 to 26*/
