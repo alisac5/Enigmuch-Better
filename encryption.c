@@ -17,10 +17,13 @@ enum MODE
     DECRYPT
 };
 
-// a collection of three rotors and their respective rotations
+// A collection of three rotors and their respective rotations
 // each rotor is specified as an integer index into the array
 // of permutations, and the rotations are specified as which
-// character appears "on top" at the current moment
+// character appears "on top" at the current moment. Also includes
+// a count of how many characters have been passed through, which
+// is used to determine how to appropriately change the state of
+// the rotors.
 typedef struct Rotors
 {
     int r1;
@@ -29,6 +32,7 @@ typedef struct Rotors
     T rot2;
     int r3;
     T rot3;
+    int count;
 } Rotors;
 Rotors ROTORS;
 
@@ -79,11 +83,14 @@ T inv_phase(int rotor_num, T output, T rotation)
 }
 
 // Change the rotations of the rotors being used.
-void nextState(Rotors *r)
+void nextState()
 {
-    //r->rot1++;
-    //r->rot2++;
-    //r->rot3++;
+    int count;
+    ROTORS.count++;
+    count = ROTORS.count;
+    ROTORS.rot1 = count % 27;
+    ROTORS.rot2 = (count/27) % 27;
+    ROTORS.rot3 = (count/(27*27)) % 27;
     return;
 }
 
@@ -121,6 +128,16 @@ T char2T(char c)
     else abort();
 }
 
+// Helper function
+char T2Char(T t)
+{
+    if (t == 26) // space
+        return 32;
+    else if (0 <= t && t <= 25)
+        return t + 65;
+    else abort();
+}
+
 // Prompt the user to select the mode (encrypt/decrypt) and return the selection
 enum MODE getModeFromUser()
 {
@@ -133,11 +150,12 @@ void setInitialState()
     // dummy initial state
     ROTORS = (Rotors){
         .r1 = 0,
-        .rot1 = char2T('A'),
+        .rot1 = 1,
         .r2 = 1,
-        .rot2 = char2T('B'),
+        .rot2 = 4,
         .r3 = 2,
-        .rot3 = char2T('C')
+        .rot3 = 23,
+        .count = 1 + 27*4 + 27*27*23
     };
 }
 
@@ -153,30 +171,46 @@ bool isDone()
     return true; // dummy return
 }
 
+// Print the current state of the rotors.
+void printState()
+{
+    printf("Rotor 1: %d\n", ROTORS.r1);
+    printf("Rotor 1 Rotation: %c\n", T2Char(ROTORS.rot1));
+    printf("Rotor 2: %d\n", ROTORS.r2);
+    printf("Rotor 2 Rotation: %c\n", T2Char(ROTORS.rot2));
+    printf("Rotor 3: %d\n", ROTORS.r3);
+    printf("Rotor 3 Rotation: %c\n", T2Char(ROTORS.rot3));
+    printf("Count: %d\n", ROTORS.count);
+}
+
 // Demo driver function
 int main()
 {
     /***** sample main logic *****/
 
-    enum MODE mode; // the current mode of the board
-    while (true) {
-        mode = getModeFromUser();
-        if (mode == ENCRYPT) {
-            T p, c; // the current plaintext and corresponding ciphertext characters
-            setInitialState();
-            while (!isDone()) {
-                p = nextChar();
-                c = encrypt(p);
-            }
-        } else if (mode == DECRYPT) {
-            T c, p; // the current ciphertext and corresponding plaintext characters
-            setInitialState();
-            while (!isDone()) {
-                c = nextChar();
-                p = decrypt(c);
-            }
-        }
-    }
+    // enum MODE mode; // the current mode of the board
+    // while (true) {
+    //     mode = getModeFromUser();
+    //     if (mode == ENCRYPT) {
+    //         T p, c; // the current plaintext and corresponding ciphertext characters
+    //         setInitialState();
+    //         while (!isDone()) {
+    //             p = nextChar();
+    //             c = encrypt(p);
+    //             // TODO: light up the ciphertext character on the board
+    //             nextState();
+    //         }
+    //     } else if (mode == DECRYPT) {
+    //         T c, p; // the current ciphertext and corresponding plaintext characters
+    //         setInitialState();
+    //         while (!isDone()) {
+    //             c = nextChar();
+    //             p = decrypt(c);
+    //             // TODO: light up the plaintext character on the board
+    //             nextState();
+    //         }
+    //     }
+    // }
 
     /***** end of sample main logic *****/
 
@@ -186,16 +220,35 @@ int main()
     char decipheredtext[14];
 
     // Start test
-    ROTORS.r1 = 0;
-    ROTORS.r2 = 1;
-    ROTORS.r3 = 2;
+    setInitialState();
 
-    ROTORS.rot1 = 1;
-    ROTORS.rot2 = 4;
-    ROTORS.rot3 = 23;
+    // print the plaintext message
+    for (i = 0; i < 14; i++) {
+        printf("%c", plaintext[i]);
+    }
+    printf("\n");
 
-    int output = encrypt(3);
-    printf("%d\n", decrypt(output));
+    // encrypt the plaintext and print it
+    for (i = 0; i < 14; i++) {
+        // printState();
+        ciphertext[i] = encrypt(plaintext[i]);
+        printf("%c", T2Char(ciphertext[i]));
+        nextState();
+    }
+    printf("\n");
+
+    // decrypt the ciphertext and print it
+    setInitialState();
+    for (i = 0; i < 14; i++) {
+        // printState();
+        decipheredtext[i] = decrypt(ciphertext[i]);
+        printf("%c", T2Char(decipheredtext[i]));
+        nextState();
+    }
+    printf("\n");
+
+    // int output = encrypt(char2T('A'));
+    // printf("%c\n", T2Char(decrypt(output)));
     // End test
 
   /*
