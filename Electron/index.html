@@ -110,32 +110,60 @@
 
 			<section>
 				<section data-markdown>
-						<textarea data-template>
-									## Original Enigma Flaw
-									"[The] major weakness of the system was that no letter could be enciphered to itself. 
-									This meant that some possible solutions could quickly be eliminated because of the
-									same letter appearing in the same place in both the ciphertext and the putative 
-									piece of plaintext. Comparing the possible plaintext Keine besonderen Ereignisse 
-									(literally, "no special occurrences" [...]), with a section of ciphertext, might
-									produce the following:" 
-									(Cryptanalysis of the Enigma)
-								</textarea>
-				
+					<textarea data-template>
+						## Rotor Functionality
+						The original Enigma machine consisted of a number of rotors that would individually map letters to
+						other letters (a substitution cipher). The machine worked by placing a number of these rotors in 
+						series and rotating each in a regular motion upon every key press. Connected to the last rotor was 
+						a reflector that connected pairs of the last rotor outputs and made the machine self-reciprocal
+						(encryption was the same as decryption).
+					</textarea>
 				</section>
 
 				<section>
-					<h1>Enigma Flaw</h1>
+					<div>
+						<h2>Original Enigma Design</h2>
+						<img class="plain"  style="height: 1%; width: 50%;" src="img/rotor_explanation.png">
+					</div>
+				</section>
+
+			</section>
+
+			<section>
+				<section data-markdown>
+						<textarea data-template>
+							## Original Enigma Flaw
+							"[The] major weakness of the system was that no letter could be enciphered to itself. 
+							This meant that some possible solutions could quickly be eliminated because of the
+							same letter appearing in the same place in both the ciphertext and the putative 
+							piece of plaintext. Comparing the possible plaintext Keine besonderen Ereignisse 
+							(literally, "no special occurrences" [...]), with a section of ciphertext, might
+							produce the following:" 
+							(Cryptanalysis of the Enigma)
+						</textarea>
+				</section>
+
+				<section>
+					<h1>Flaw Example</h1>
 					<div>
 						<img class="plain" src="img/exclusion_of_some_plaintext.png">
 					</div>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						## Our Solution
+						By separating encryption and decryption into different modes, we were able to have letters
+						map to themselves. This eliminates the use of the previous flaw to reform the plaintext.
+					</textarea>
 				</section>
 			</section>
 
 			<section data-markdown>
 					<textarea data-template>
-								## REFERENCES
-								[Cryptanalysis of the Enigma](https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma)
-							</textarea>
+						## REFERENCES
+						[Cryptanalysis of the Enigma](https://en.wikipedia.org/wiki/Cryptanalysis_of_the_Enigma)
+					</textarea>
 			</section>
 		</div>
 	</div>
