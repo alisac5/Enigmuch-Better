@@ -1,0 +1,35 @@
+\documentclass[11pt]{article} %default is 10, can take values {10, 11, 12}
+%\documentclass[11pt]{amsart}	 %adds additional math functionality to article
+\usepackage[margin=1.5in]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath} %using these two packages adds the features of amsart while in article
+\usepackage{enumerate}
+\usepackage{graphicx}
+
+\newcommand{\Z[1]}{\mathbb{Z}/#1}
+\newcommand{\evalphi}[1]{2 \pi #1 + \frac{\pi}{2}}
+\newcommand{\inversephi}[1]{(\frac{#1}{2 \pi} - \frac{1}{4})}
+\newcommand{\Prob}[1]{\mathbb{P}(#1)}
+\newcommand{\Paren}[1]{\left(#1\right)}
+\newcommand{\dn}[2]{#1^{(#2)}}
+\newcommand{\interior}[1]{#1^{\mathrm{o}}}
+\newcommand{\oset}{\mathcal{O}}
+\newcommand{\odds}{\{o_N\}_{n \in \mathbb{N}}}
+\newcommand{\evens}{\{e_N\}_{n \in \mathbb{N}}}
+\newcommand{\nevens}{\{-e_N\}_{n \in \mathbb{N}}}
+
+
+
+\setlength{\parindent 0in}
+\setlength{\parskip 1ex} %space between paragraphs, ex is the height of the letter x in the current font (could use inches if you wanted)
+\title{ \\ Due Oct 22}
+\author{Alisa Chang \\ alisac}
+\date{} %will get rid of date
+
+%^^Above this line is the preamble
+
+\begin{document}
+$$E = \rho^a A \rho^{-a} \rho^b B \rho^{-b} \rho^c C \rho^{-c}$$
+$$D = \rho^c C^{-1} \rho^{-c} \rho^b B^{-1} \rho^{-b} \rho^a A^{-1} \rho^{-a}$$
+\end{document}
+
