@@ -144,18 +144,18 @@ enum MODE getModeFromUser()
     return ENCRYPT; // dummy return
 }
 
-// Prompt the user to set the initial rotor selection and rotations.
-void setInitialState()
+// Set the initial state given the rotors and their rotations.
+void setInitialState(int r1, T rot1, int r2, T rot2, int r3, T rot3)
 {
-    // dummy initial state
+    int count = rot1 + 27*rot2 + 27*27*rot3;
     ROTORS = (Rotors){
-        .r1 = 0,
-        .rot1 = 1,
-        .r2 = 1,
-        .rot2 = 4,
-        .r3 = 2,
-        .rot3 = 23,
-        .count = 1 + 27*4 + 27*27*23
+        .r1 = r1,
+        .rot1 = rot1,
+        .r2 = r2,
+        .rot2 = rot2,
+        .r3 = r3,
+        .rot3 = rot3,
+        .count = count
     };
 }
 
@@ -214,13 +214,13 @@ int main()
 
     /***** end of sample main logic *****/
 
-    int i, len = 1;
-    char plaintext[] = "a"; // strlen(plaintext) = 14
+    int i, len = 14;
+    char plaintext[] = "THIS IS A TEST"; // strlen(plaintext) = 14
     char ciphertext[len];
     char decipheredtext[len];
 
     // Start test
-    setInitialState();
+    setInitialState(0, 1, 1, 4, 2, 23);
 
     // print the plaintext message
     printf("plaintext      : ");
@@ -241,7 +241,7 @@ int main()
 
     // decrypt the ciphertext and print it
     printf("decrypted text : ");
-    setInitialState();
+    setInitialState(0, 1, 1, 4, 2, 23);
     for (i = 0; i < len; i++) {
         // printState();
         decipheredtext[i] = decrypt(ciphertext[i]);
