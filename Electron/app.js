@@ -43,7 +43,8 @@ var doSerial = function () {
         // Read the port data
         port.on("open", () => {
             console.log('serial port open');
-            setTimeout(function(){ Reveal.slide(2, 0, 0); setArduinoSlide(20); }, 2000);
+            setTimeout(function(){ Reveal.slide(2, 0, 0); 
+                setArduinoSlide(20); }, 2000);
         });
 
         var Readline = Serialport.parsers.Readline; // make instance of Readline parser
@@ -52,6 +53,34 @@ var doSerial = function () {
 
         parser.on('data', data => {
             console.log('got word from arduino:', data);
+
+            // If Encrypt : Place in enc 
+            // If Decrypt : Place in dec 
+            var plainbyte,cipherbyte; 
+
+            console.log(data.substring(0,3));
+            if(data.substring(0,3) == "DEC"){
+                plainbyte = data.substring(5,6);
+                cipherbyte = data.substring(4,5);
+                ciphertext+=cipherbyte; 
+                plaintext+=plainbyte;
+                console.log("DATA _ DECRYPT " + plainbyte + cipherbyte);
+                updateText();
+
+
+            }
+            
+            if(data.substring(0,3) == "ENC"){
+                console.log("DATA _ ENCRYPT");
+                cipherbyte = data.substring(5,6);
+                plainbyte = data.substring(4,5);
+                ciphertext+=cipherbyte; 
+                plaintext+=plainbyte;
+                updateText();
+                console.log("DATA _ ENCRYPT " + plainbyte + cipherbyte);
+            }
+            
+
         });
 
         port.on('error', error => {
@@ -64,9 +93,10 @@ var doSerial = function () {
 
 
     }).catch((err) => {
-      //  alert("Failed to connect to arduino. Please check power/connections." + err.message);
-      Reveal.slide(2, 0, 0);
-  
+      alert("Failed to connect to arduino. Please check power/connections." + err.message);
+     // Reveal.slide(0, 0, 0);
+     toggleNav(true);
+
       console.log(err);
     });
 }
@@ -76,9 +106,74 @@ function setArduinoSlide( slide){
         if (err) {
           return console.log('Error on write: ', err.message);
         }
-        console.log('message written');
+        console.log('message written' + 'SLD ' + slide +'\n');
       });
 }
+
+
+function SetArduinoIV(){
+    port.write('DFT \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written DFT');
+      });
+}
+
+
+function setArduinoModeEncrypt(){
+    port.write('ENC \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written : ENC');
+      });
+}
+
+function SetArduinoModeDecrypt(){
+    port.write('DEC \n', (err) => {
+        if (err) {
+          return console.log('Error on write: ', err.message);
+        }
+        console.log('message written : DEC');
+      });
+}
+    var plaintext = "";
+    var ciphertext = "";
+    var mode = 0; // 0 Encrypt 1 = decrypt
+
+function clearText(){
+    plaintext = ""; 
+    ciphertext = ""; 
+    updateText(); 
+//    SetArduinoIV(); // Reset IV counters 
+}
+
+function updateText(){
+
+        document.getElementById("CIPHA").value = plaintext; 
+        document.getElementById("CIPHB").value = ciphertext; 
+
+}
+
+function toggleEncryptDecrypt(){
+    if(mode == 1){
+        // Is Encrypt. Switch to decrypt 
+        clearText(); 
+        SetArduinoModeDecrypt();
+        document.getElementById("CIPH_TOGGLE").innerText = "Decrypting"; 
+
+        mode = 0; 
+    }else{
+        // is Decrypt. Switch to encrypt 
+        clearText(); 
+        setArduinoModeEncrypt(); 
+        document.getElementById("CIPH_TOGGLE").innerText = "Encrypting"; 
+        mode = 1; 
+    }
+}
+
+
 var isTestingHW= false; 
 function testHardwareHandler(){
     var button = document.getElementById("hwtstbtn");
@@ -108,6 +203,8 @@ Reveal.addEventListener('slidechanged', function (event) {
     if (event.indexh == 0 || event.indexh == 1) {
         // Slide every five seconds
         toggleNav(false);
+        clearText();
+        
     } else {
         // Slide every five seconds
         toggleNav(true);
@@ -125,6 +222,15 @@ Reveal.addEventListener('slidechanged', function (event) {
         setArduinoSlide(30);
 
     }
+
+    if(event.indexh == 5){
+        if(mode == 0){
+            setArduinoModeEncrypt();
+        }else{
+            SetArduinoModeDecrypt();
+        }
+    }
+
 
 });
 

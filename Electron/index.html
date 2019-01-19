@@ -62,6 +62,11 @@
 			</section>
 
 			<section>
+					<h1 class="segmentDisplay">Hi</h1>
+					<p>Start by presssing the <strong>'A'</strong> key</p>
+				</section>
+				
+			<section>
 				<section>
 					<h1>Hardware</h1>
 					<div class="imageColum" style="width:30%; ; float: left">
@@ -97,10 +102,7 @@
 				</section>
 			</section>
 
-			<section>
-				<h1 class="segmentDisplay">Hi</h1>
-				<p>Start by presssing the <strong>'A'</strong> key</p>
-			</section>
+			
 
 			<section>
 				<div>
@@ -109,13 +111,13 @@
 				<div class="row" style="width: 100%; height:100%;">
 					<div class="column left" style="background-color: #2c3e50;  height:600px;">
 							<h2>Encrypt/Decrypt</h2>
-						<label  class="segmentDisplay largeDisplay" >0  0  0</label>
+						<label  class="segmentDisplay largeDisplay" >9  4  5</label>
 						<br>
-						<input class = "cipherbox cipherbox_top" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
+						<input id="CIPHA" class = "cipherbox cipherbox_top" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
 						<br>
-						<input class = "cipherbox cipherbox_bottom" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
+						<input id = "CIPHB" class = "cipherbox cipherbox_bottom" type="text" name="telnum" value="ABCDEFGHIKJLMONQRST" readonly="readonly" />
 						<br>
-						<button class="btn btn-1 btn-1a cipherbox_btn" style=" float: left; margin-left: 5%; margin-right: 0px;">Clear</button> <button class="btn btn-1 btn-1a cipherbox_btn"  style=" float: left; margin-left: 0px; margin-right: 5%;">Decrypt</button>
+						<button id = "CIPH_CLEAR" class="btn btn-1 btn-1a cipherbox_btn" style=" float: left; margin-left: 5%; margin-right: 0px;" onclick="clearText()">Clear</button> <button id = "CIPH_TOGGLE" class="btn btn-1 btn-1a cipherbox_btn"  style=" float: left; margin-left: 0px; margin-right: 5%;" onclick="toggleEncryptDecrypt()">Decrypt</button>
 					</div>
 					<div class="column middle" style="background-color: white; height:600px;">
 						<img class="plain row middle" style="height: 45%;" src="img/encryption_path.png"></p>
@@ -206,6 +208,22 @@
 					[Stanford CS106J](https://web.stanford.edu/class/cs106j/assignments/Assignment-05/Cryptography.pdf)
 				</textarea>
 			</section>
+
+			<section>
+				<h1>Team</h1>
+				<ul>
+					<li>Ethan</li>
+					<li>Michaela</li>
+					<li>Alisa</li>
+					<li>Winston</li>
+					<li>Elliot</li>
+
+
+
+
+				</ul>
+				<button class="btn btn-1 btn-1a" onclick="Reveal.slide(0, 0, 0);">RESET</button> 
+			</section>
 		</div>
 	</div>
 
@@ -222,6 +240,8 @@
 			loop: true
 		});
 		Reveal.initialize({
+			slideNumber: false,
+
 			dependencies: [
 				{ src: 'plugin/markdown/marked.js' },
 				{ src: 'plugin/markdown/markdown.js' },
